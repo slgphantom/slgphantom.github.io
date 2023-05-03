@@ -45,7 +45,18 @@
     
     
     
-  </head>
+   <link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+        html.glightbox-open { overflow: initial; height: 100%; }
+        .gslide-title { margin-top: 0px; user-select: text; }
+        .gslide-desc { color: #666; user-select: text; }
+        .gslide-image img { background: white; }
+        
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
+            </style> <script src="../../../assets/javascripts/glightbox.min.js"></script></head>
   
   
     
@@ -289,6 +300,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../zi1sik1/" class="md-nav__link">
+        🖼️ zi1sik1
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -495,8 +520,11 @@
 <h3 id="corpus">Corpus</h3>
 <ul>
 <li>The corpus used is <code>Artificial Intelligence: A Very Short Introduction (Very Short Introductions)</code>, which can purchased <a href="https://www.amazon.com/Artificial-Intelligence-Short-Introduction-Introductions/dp/0199602913">here</a>.</li>
-<li>The raw content of the book is the property of Oxford University Press and shall not be redistributed.</li>
 </ul>
+<div class="admonition warning">
+<p class="admonition-title">Disclaimer</p>
+<p>The raw content of the book is the property of Oxford University Press and shall not be redistributed.</p>
+</div>
 <hr />
 <h2 id="abstract">Abstract</h2>
 <p>Artificial Intelligence (AI) is the use of computers to perform tasks that would normally require human intelligence such as reasoning, perception, prediction, and planning. The ultimate goal of AI research is to create systems with human-like general intelligence, which remains a major challenge in the field. Researchers use a variety of methodologies and techniques such as heuristics, planning, mathematical simplification, and knowledge representation to achieve this goal. The current research focuses on using AI to recognize and respond to human emotions, rather than on creating AI systems that can experience emotions themselves. The backpropagation algorithm is a popular method used to train Artificial Neural Networks (ANNs) which is based on the principle of "backpropagation" of errors and it is found to be effective in training deep neural networks.</p>
@@ -571,5 +599,5 @@
       <script src="../../../assets/javascripts/bundle.51198bba.min.js"></script>
       
     
-  </body>
+  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
 </html>
