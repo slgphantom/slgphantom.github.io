@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>GPT-3.5 Turbo + Dall-E</title>
+    <!-- Font Awesome -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- MDB -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css"
+      rel="stylesheet"
+    />
+    <!-- MDB -->
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"
+    ></script>
+  </head>
+    
+  <body>
+    <!-- prettier-ignore -->
+    <div class="container">
+      <div style="text-align: center; margin-top: 150px">
+        
+          <h1>GPT-3.5 Turbo + Dall-E</h1>
+          <br><br>
+        
+          <form>
+
+          <!-- Message input -->
+          <div class="form-outline mb-4">
+            <textarea class="form-control" id="prompt" rows="4"></textarea>
+            <label class="form-label" for="prompt">Your Prompt</label>
+          </div>
+            
+          <div class="form-outline mb-4">
+            <div class="form-outline">
+              <input type="password" id="accessToken" class="form-control" />
+              <label class="form-label" for="accessToken">Access Token</label>
+            </div>
+          </div>
+            
+          <!-- 2 column grid layout with text inputs for the first and last names -->
+          <div class="row mb-4">
+            <div class="col">
+              <!-- Submit button -->
+              <button type="button" id="gpt-button" class="btn btn-primary btn-block mb-4">Ask Question</button>
+            </div>
+            <div class="col">
+              <!-- Submit button -->
+              <button type="button" id="dalle-button" class="btn btn-primary btn-block mb-4">Generate Image</button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+      <div class="container-md" id="result"></div>
+    </div>
+  </body>
+  <foot>
+    <script>
+      const gptButton = document.getElementById('gpt-button');
+      gptButton.addEventListener('click', () => {
+        const accessToken = document.getElementById('accessToken').value;
+        const promptValue = document.getElementById('prompt').value;
+
+        const data = {
+          accessToken: accessToken,
+          service: 'gpt',
+          prompt: {
+            messages: [
+              {
+                role: 'user',
+                content: promptValue
+              }
+            ]
+          }
+        };
+        
+        console.log(data);
+
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = "";
+        const spinner = document.createElement('div');
+        spinner.classList.add('spinner-border');
+        spinner.setAttribute('role', 'status');
+        const spinnerText = document.createElement('span');
+        spinnerText.classList.add('visually-hidden');
+        spinnerText.innerText = 'Loading...';
+        spinner.appendChild(spinnerText);
+        resultDiv.appendChild(spinner);
+
+        fetch('https://script.google.com/macros/s/AKfycbzwUOVeYc_9PfqEnIlhbwJBL-DFFGe8RVzTrbSIzEWp9RY7o2fGPIu139RhxTNM_nYw/exec', {
+          method: 'POST',
+          body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(result => {
+          console.log(result);
+          resultDiv.removeChild(spinner);
+          if(result.hasOwnProperty("error")){
+            resultDiv.innerHTML = result.error;
+          } else {
+          const messageContent = result.choices[0].message.content;
+          resultDiv.innerHTML = messageContent;
+        }});
+      });
+      
+      const dalleButton = document.getElementById('dalle-button');
+      dalleButton.addEventListener('click', () => {
+        const accessToken = document.getElementById('accessToken').value;
+        const promptValue = document.getElementById('prompt').value;
+
+        const data = {
+          accessToken: accessToken,
+          service: 'dalle',
+          prompt: {
+                caption: promptValue
+              }
+        };
+        
+        console.log(data);
+
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = "";
+        const spinner = document.createElement('div');
+        spinner.classList.add('spinner-border');
+        spinner.setAttribute('role', 'status');
+        const spinnerText = document.createElement('span');
+        spinnerText.classList.add('visually-hidden');
+        spinnerText.innerText = 'Loading...';
+        spinner.appendChild(spinnerText);
+        resultDiv.appendChild(spinner);
+
+        
+        fetch('https://script.google.com/macros/s/AKfycbzwUOVeYc_9PfqEnIlhbwJBL-DFFGe8RVzTrbSIzEWp9RY7o2fGPIu139RhxTNM_nYw/exec', { 
+          method: 'POST',
+          body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(result => {
+          console.log(result);
+          resultDiv.removeChild(spinner);
+          if(result.hasOwnProperty("error")){
+            resultDiv.innerHTML = result.error;
+          } else {
+            const messageContent = result.result.contentUrl;
+            resultDiv.innerHTML = `<img src="${messageContent}" alt="${promptValue}" class="img-fluid">`; 
+          }});
+      });
+
+    </script>
+  </foot>
+</html>
